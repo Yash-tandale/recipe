@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import "../styles/CreateRecipe.css";
+import { BASE_URL } from "../utils/helper.js";
 
 const CreateRecipe = () => {
   const userID = window.localStorage.getItem("userID");
@@ -41,7 +42,7 @@ const CreateRecipe = () => {
     !userID && alert("Please login");
     try {
       await axios.post(
-        "http://localhost:5000/recipe/add-recipe",
+        `${BASE_URL}/recipe/add-recipe`,
         { ...recipe },
         {
           headers: { authorization: cookies.access_token },

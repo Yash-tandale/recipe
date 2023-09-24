@@ -3,6 +3,7 @@ import axios from "axios";
 import "../styles/Home.css";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/helper.js";
 
 const Home = () => {
   const [recipes, setRecipes] = useState([]);
@@ -15,9 +16,7 @@ const Home = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/recipe/getAll-recipes"
-        );
+        const response = await axios.get(`${BASE_URL}/recipe/getAll-recipes`);
         setRecipes(response.data);
         console.log(response);
       } catch (err) {
@@ -28,7 +27,7 @@ const Home = () => {
     const fetchSavedRecipes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/recipe/savedRecipes/ids/${userID}`
+          `${BASE_URL}/recipe/savedRecipes/ids/${userID}`
         );
         setSavedRecipes(response.data.savedRecipes);
       } catch (err) {
@@ -43,7 +42,7 @@ const Home = () => {
   const saveRecipe = async (recipeID) => {
     try {
       const response = await axios.put(
-        "http://localhost:5000/recipe",
+        `${BASE_URL}/recipe`,
         {
           recipeID,
           userID,
@@ -69,26 +68,6 @@ const Home = () => {
   return (
     <div className="container">
       <h1>Recipes</h1>
-      {/* <ul>
-        {recipes.map((recipe) => (
-          <li key={recipe._id}>
-            <div>
-              <h2>{recipe.name}</h2>
-              <button
-                onClick={() => saveRecipe(recipe._id)}
-                disabled={isRecipeSaved(recipe._id)}
-              >
-                {isRecipeSaved(recipe._id) ? "Saved" : "Save"}
-              </button>
-            </div>
-            <div className="instructions">
-              <p>{recipe.instructions}</p>
-            </div>
-            <img src={recipe.imageUrl} alt={recipe.name} />
-            <p>Cooking Time: {recipe.cookingTime} minutes</p>
-          </li>
-        ))}
-      </ul> */}
       <div className="grid">
         {recipes.map((recipe) => (
           <div className="recipe-div" key={recipe._id}>
